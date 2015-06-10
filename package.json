@@ -1,5 +1,5 @@
 {
-  "name": "routific-node-client",
+  "name": "routific",
   "version": "0.0.1",
   "description": "Client to use Routific API",
   "main": "index.js",
