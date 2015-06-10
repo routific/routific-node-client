@@ -23,6 +23,7 @@ function endpoint(client, endpointPath) {
 function Routific(configuration) {
   this.url = getConfig(configuration, 'url');
   this.version = getConfig(configuration, 'version');
+  this.token = getConfig(configuration, 'token');
 };
 
 // Performs a call to the login endpoint.
