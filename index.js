@@ -46,4 +46,6 @@ Routific.prototype.login = function(email, password, cb) {
   })
 };
 
-module.exports = Routific
+module.exports = {
+  Client: Routific
+}
