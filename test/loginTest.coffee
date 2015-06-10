@@ -11,10 +11,25 @@ describe 'login', ->
       email: "test@test.com",
       password: "testing"
     .reply 200,
+      token: 'yourToken'
       _id: 'yourID'
 
     client.login "test@test.com", "testing", (err, data) ->
       return done(err) if err?
       expect(data._id).to.eq("yourID")
+      expect(data.token).to.eq("yourToken")
       done()
 
+  it 'stores the new token', (done) ->
+    client = new Routific()
+    nock(client.url).post "/v#{client.version}/users/login",
+      email: "test@test.com",
+      password: "testing"
+    .reply 200,
+      token: 'yourToken'
+      _id: 'yourID'
+
+    client.login "test@test.com", "testing", (err, data) ->
+      return done(err) if err?
+      expect(client.token).to.eq("yourToken")
+      done()

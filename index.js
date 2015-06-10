@@ -29,8 +29,9 @@ function Routific(configuration) {
 // The callback will be called with `error` and `body`, being `body` the
 //   parsed body of the response.
 Routific.prototype.login = function(email, password, cb) {
+  var self = this;
   request({
-    url: endpoint(this, "/users/login"),
+    url: endpoint(self, "/users/login"),
     method: "POST",
     json: {
       email: email,
@@ -39,6 +40,7 @@ Routific.prototype.login = function(email, password, cb) {
   }, function(err, response, body) {
     if(err)
       return cb(err)
+    self.token = body.token;
     cb(undefined, body)
   })
 };
