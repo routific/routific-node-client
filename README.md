@@ -1,4 +1,5 @@
 # Routific npm module
+[![Build Status](https://magnum.travis-ci.com/axiomzen/routific-node-client.svg?token=srN8qsAuFiJpLCBPzvLf&branch=master)](https://magnum.travis-ci.com/axiomzen/routific-node-client)
 
 This node library is a client to interact with the [Routific API](http://docs.routific.com/v1.0/docs/api-reference)
 
