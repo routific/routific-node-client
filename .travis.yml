@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- '0.12'
+branches:
+  only:
+  - master
+
+notifications:
+  email:
+    recipients:
+    - dev@axiomzen.co
+    on_success: change
+    on_failure: always
+  webhooks: https://axiomzen.slack.com/services/hooks/travis?token=atnWpsPNPRmc4Gjvcc1qy8Zn
