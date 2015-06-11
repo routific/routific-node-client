@@ -12,7 +12,7 @@ npm install routific
 
 A simple login example:
 
-```
+```javascript
 Routific = require('routific');
 
 client = new Routific.Client();
@@ -27,7 +27,7 @@ client.login("test@test.com", "123456", function(err, response){
 
 The Routific `Client` constructor accepts an optional configuration object as a first argument.
 
-```
+```javascript
 client = new Routific.Client(options);
 ```
 
@@ -43,7 +43,7 @@ Valid options:
 
 It calls the Login endpoint and keeps the received token for the following authenticated calls.
 
-```
+```javascript
 client.login(email, password, function(error, response){
     //...
 })
@@ -53,9 +53,9 @@ client.login(email, password, function(error, response){
 
 It calls the VRP endpoint (long version) and waits until the job is processed. It returns the job output, as it would do callinf the short VRP endpoint.
 
-```
+```javascript
 vrp = new Routific.Vrp();
-vrp.addVisit(visitID1, {
+vrp.addVisit("visitID1", {
     location: {
         name: "Visit1 name",
         lat: 49.227607,
@@ -65,13 +65,13 @@ vrp.addVisit(visitID1, {
     end: "16:00",
     duration: 10
 });
-vrp.addVehicle(vehicleID1, {
-    start_location:{
+vrp.addVehicle("vehicleID1", {
+    start_location: {
         id: "depot",
         lat: 49.2553636,
         lng: -123.0873365
     },
-    end_location:{
+    end_location: {
         id: "depot",
         lat: 49.2553636,
         lng: -123.0873365
