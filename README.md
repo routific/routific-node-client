@@ -52,7 +52,7 @@ client.login(email, password, function(error, response){
 
 ## VRP route
 
-It calls the VRP endpoint (long version) and waits until the job is processed. It returns the job output, as it would do callinf the short VRP endpoint.
+It calls the VRP endpoint (long version) and waits until the job is processed. It returns the job output, as it would do calling the short VRP endpoint.
 
 ```javascript
 vrp = new Routific.Vrp();
@@ -79,6 +79,51 @@ vrp.addVehicle("vehicleID1", {
     }
 });
 client.route(vrp, function(err, solution){
+    //...
+})
+```
+
+## PDP route
+
+It calls the PDP endpoint (long version) and waits until the job is processed. It returns the job output, as it would do calling the short PDP endpoint.
+
+```javascript
+pdp = new Routific.Pdp();
+pdp.addVisit("visitID1", {
+    pickup: {
+        location: {
+            name: "Visit1 pickup name",
+            lat: 49.227607,
+            -123.1363085
+        },
+        start: "8:00",
+        end: "16:00",
+        duration: 10
+    },
+    dropoff: {
+        location: {
+            name: "Visit1 dropoff name",
+            lat: 48.227607,
+            -122.1363085
+        },
+        start: "8:00",
+        end: "16:00",
+        duration: 10
+    }
+});
+pdp.addVehicle("vehicleID1", {
+    start_location: {
+        id: "depot",
+        lat: 49.2553636,
+        lng: -123.0873365
+    },
+    end_location: {
+        id: "depot",
+        lat: 49.2553636,
+        lng: -123.0873365
+    }
+});
+client.route(pdp, function(err, solution){
     //...
 })
 ```
