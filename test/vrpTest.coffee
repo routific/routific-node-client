@@ -58,7 +58,7 @@ describe 'VRP', ->
       done()
 
   it 'retries fetching the job until it is done', (done) ->
-    client = new Routific.Client(token: '1234')
+    client = new Routific.Client(token: '1234', pollDelay: 100)
     vrp = getVrp()
     nock client.url,
       reqheaders:

@@ -35,6 +35,7 @@ Valid options:
 - `url`: Routific API url. This is for internal use only. Default `"https://api.routific.com"`.
 - `version`: Version of the API to use. Default `1`.
 - `token`: User token to use for authenticated operations. This is optional, performing a login will set it too. Default `null`.
+- `pollDelay`: Milliseconds between attempts to check if jobs are finished when processing routes. Default `1000`.
 
 
 # Operations
