@@ -61,7 +61,7 @@ vrp.addVisit("visitID1", {
     location: {
         name: "Visit1 name",
         lat: 49.227607,
-        -123.1363085
+        lng: -123.1363085
     },
     start: "8:00",
     end: "16:00",
