@@ -38,6 +38,7 @@ describe 'PDP', ->
         id: "depot"
         lat: 49.2553636
         lng: -123.0873365
+    pdp.addOption "balance", true
     return pdp
 
   it 'sends the request to the pdp-long and jobs endpoints', (done) ->
@@ -52,6 +53,8 @@ describe 'PDP', ->
         o2: pdp.data.visits.o2
       fleet:
         v1: pdp.data.fleet.v1
+      options:
+        balance: pdp.data.options.balance
     .reply 200,
       job_id: "abcde"
 
@@ -81,6 +84,8 @@ describe 'PDP', ->
         o2: pdp.data.visits.o2
       fleet:
         v1: pdp.data.fleet.v1
+      options:
+        balance: pdp.data.options.balance
     .reply 200,
       job_id: "abcde"
 

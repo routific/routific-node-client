@@ -26,6 +26,7 @@ describe 'VRP', ->
         id: "depot"
         lat: 49.2553636
         lng: -123.0873365
+    vrp.addOption "traffic", "fast"
     return vrp
 
   it 'sends the request to the vrp-long and jobs endpoints', (done) ->
@@ -40,6 +41,8 @@ describe 'VRP', ->
         o2: vrp.data.visits.o2
       fleet:
         v1: vrp.data.fleet.v1
+      options:
+        traffic: vrp.data.options.traffic
     .reply 200,
       job_id: "abcde"
 
@@ -69,6 +72,8 @@ describe 'VRP', ->
         o2: vrp.data.visits.o2
       fleet:
         v1: vrp.data.fleet.v1
+      options:
+        traffic: vrp.data.options.traffic
     .reply 200,
       job_id: "abcde"
 
