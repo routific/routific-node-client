@@ -79,6 +79,7 @@ vrp.addVehicle("vehicleID1", {
         lng: -123.0873365
     }
 });
+vrp.addOption("traffic", "slow");
 client.route(vrp, function(err, solution){
     //...
 })
@@ -124,6 +125,7 @@ pdp.addVehicle("vehicleID1", {
         lng: -123.0873365
     }
 });
+pdp.addOption("traffic", "slow");
 client.route(pdp, function(err, solution){
     //...
 })
