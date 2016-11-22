@@ -80,7 +80,7 @@ vrp.addVehicle("vehicleID1", {
     }
 });
 vrp.addOption("traffic", "slow");
-client.route(vrp, function(err, solution){
+client.route(vrp, function(err, solution, jobId){
     //...
 })
 ```
@@ -126,7 +126,7 @@ pdp.addVehicle("vehicleID1", {
     }
 });
 pdp.addOption("traffic", "slow");
-client.route(pdp, function(err, solution){
+client.route(pdp, function(err, solution, jobId){
     //...
 })
 ```
