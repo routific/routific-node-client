@@ -67,9 +67,10 @@ describe 'PDP', ->
       output:
         num_unserved: 1
 
-    client.route pdp, (error, solution) ->
+    client.route pdp, (error, solution, jobId) ->
       return done(err) if err?
       expect(solution.num_unserved).to.eq(1)
+      expect(jobId).to.exist
       done()
 
   it 'retries fetching the job until it is done', (done) ->
@@ -101,7 +102,7 @@ describe 'PDP', ->
       output:
         num_unserved: 1
 
-    client.route pdp, (error, solution) ->
+    client.route pdp, (error, solution, jobId) ->
       return done(err) if err?
       jobCalls.done()
       done()
