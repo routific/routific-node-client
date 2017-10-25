@@ -95,7 +95,7 @@ pdp.addVisit("visitID1", {
         location: {
             name: "Visit1 pickup name",
             lat: 49.227607,
-            -123.1363085
+            lng: -123.1363085
         },
         start: "8:00",
         end: "16:00",
@@ -105,7 +105,7 @@ pdp.addVisit("visitID1", {
         location: {
             name: "Visit1 dropoff name",
             lat: 48.227607,
-            -122.1363085
+            lng: -122.1363085
         },
         start: "8:00",
         end: "16:00",
