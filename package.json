@@ -1,6 +1,6 @@
 {
   "name": "routific",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Client to use Routific API",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/axiomzen/routific-node-client#readme",
   "dependencies": {
-    "request": "^2.57.0"
+    "request": "^2.85.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",
