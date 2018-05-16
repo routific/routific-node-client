@@ -1,5 +1,7 @@
 # Routific npm module
 
+[![Build Status](https://travis-ci.org/routific/routific-node-client.svg?branch=master)](https://travis-ci.org/routific/routific-node-client)
+
 This node library is a client to interact with the [Routific API](http://docs.routific.com/)
 
 # Usage
