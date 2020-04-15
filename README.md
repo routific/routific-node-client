@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # Routific npm module
 
 This node library is a client to interact with the [Routific API](http://docs.routific.com/)
