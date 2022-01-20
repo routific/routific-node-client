@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/axiomzen/routific-node-client.git"
+    "url": "https://github.com/routific/routific-node-client.git"
   },
   "keywords": [
     "routific",
@@ -18,9 +18,9 @@
   "author": "Albert Callarisa Roca <albert@axiomzen.co>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/axiomzen/routific-node-client/issues"
+    "url": "https://github.com/routific/routific-node-client/issues"
   },
-  "homepage": "https://github.com/axiomzen/routific-node-client#readme",
+  "homepage": "https://github.com/routific/routific-node-client#readme",
   "dependencies": {
     "request": "^2.85.0"
   },
