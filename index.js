@@ -1,5 +1,3 @@
-module.exports = {
-  Client: require("./lib/client"),
-  Vrp: require("./lib/vrp"),
-  Pdp: require("./lib/pdp")
-}
+export * from './lib/client.js'
+export * from './lib/vrp.js'
+export * from './lib/pdp.js'

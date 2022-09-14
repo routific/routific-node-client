@@ -1,68 +1,47 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-const chai = require('chai')
-const nock = require('nock')
-const {
-  expect
-} = chai
+import { equal } from 'node:assert/strict'
+import { Routific } from '../index.js'
 
-const Routific = require('../index')
+const response = new Response(JSON.stringify({
+  token: 'yourToken',
+  _id: 'yourID'
+}))
 
 describe('login', function () {
-  it('sends the request to the login endpoint', function (done) {
-    const client = new Routific.Client()
-    nock(client.url).post(`/v${client.version}/users/login`, {
-      email: 'test@test.com',
-      password: 'testing'
-    }).reply(200, {
-      token: 'yourToken',
-      _id: 'yourID'
-    })
+  it('sends the request to the login endpoint', async function () {
+    const client = new Routific()
+    client.onfetch = (url, request) => {
+      equal(url, `${client.url}/v${client.version}/users/login`)
+      equal(request.body, '{"email":"test@test.com","password":"testing"}')
+      return response.clone()
+    }
 
-    return client.login('test@test.com', 'testing', function (err, data) {
-      if (err != null) { return done(err) }
-      expect(data._id).to.eq('yourID')
-      expect(data.token).to.eq('yourToken')
-      return done()
-    })
+    const data = await client.login('test@test.com', 'testing')
+    equal(data._id, 'yourID')
+    equal(data.token, 'yourToken')
   })
 
-  it('stores the new token', function (done) {
-    const client = new Routific.Client()
-    nock(client.url).post(`/v${client.version}/users/login`, {
-      email: 'test@test.com',
-      password: 'testing'
-    }).reply(200, {
-      token: 'yourToken',
-      _id: 'yourID'
-    })
+  it('stores the new token', async function () {
+    const client = new Routific()
+    client.onfetch = (url, request) => {
+      equal(url, `${client.url}/v${client.version}/users/login`)
+      equal(request.body, '{"email":"test@test.com","password":"testing"}')
+      return response.clone()
+    }
 
-    return client.login('test@test.com', 'testing', function (err, data) {
-      if (err != null) { return done(err) }
-      expect(client.token).to.eq('yourToken')
-      return done()
-    })
+    await client.login('test@test.com', 'testing')
+    equal(client.token, 'yourToken')
   })
 
-  return it('overrides an existing token', function (done) {
-    const client = new Routific.Client({ token: 'oldToken' })
-    nock(client.url).post(`/v${client.version}/users/login`, {
-      email: 'test@test.com',
-      password: 'testing'
-    }).reply(200, {
-      token: 'yourToken',
-      _id: 'yourID'
-    })
+  it('overrides an existing token', async () => {
+    const client = new Routific({ token: 'oldToken' })
+    client.onfetch = (url, request) => {
+      equal(url, `${client.url}/v${client.version}/users/login`)
+      equal(request.body, '{"email":"test@test.com","password":"testing"}')
+      return response.clone()
+    }
 
-    expect(client.token).to.eq('oldToken')
-    return client.login('test@test.com', 'testing', function (err, data) {
-      if (err != null) { return done(err) }
-      expect(client.token).to.eq('yourToken')
-      return done()
-    })
+    equal(client.token, 'oldToken')
+    await client.login('test@test.com', 'testing')
+    equal(client.token, 'yourToken')
   })
 })

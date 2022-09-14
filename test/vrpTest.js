@@ -1,117 +1,117 @@
-const chai = require('chai')
-const nock = require('nock')
-const { expect } = chai
+import { equal, deepEqual } from 'node:assert/strict'
+import { Routific, Vrp } from '../index.js'
 
-const Routific = require('../index.js')
+const getVrp = function () {
+  const vrp = new Vrp()
+  vrp.addVisit('o1', {
+    location: {
+      name: 'Order 1 street',
+      lat: 49.227607,
+      lng: -123.1363085
+    }
+  })
+  vrp.addVisit('o2', {
+    location: {
+      name: 'Order 2 street',
+      lat: 49.227107,
+      lng: -123.1163085
+    }
+  })
+  vrp.addVehicle('v1', {
+    start_location: {
+      id: 'depot',
+      lat: 49.2553636,
+      lng: -123.0873365
+    },
+    end_location: {
+      id: 'depot',
+      lat: 49.2553636,
+      lng: -123.0873365
+    }
+  })
+  vrp.addOption('traffic', 'fast')
+  return vrp
+}
 
 describe('VRP', function () {
-  const getVrp = function () {
-    const vrp = new Routific.Vrp()
-    vrp.addVisit('o1', {
-      location: {
-        name: 'Order 1 street',
-        lat: 49.227607,
-        lng: -123.1363085
-      }
-    })
-    vrp.addVisit('o2', {
-      location: {
-        name: 'Order 2 street',
-        lat: 49.227107,
-        lng: -123.1163085
-      }
-    })
-    vrp.addVehicle('v1', {
-      start_location: {
-        id: 'depot',
-        lat: 49.2553636,
-        lng: -123.0873365
-      },
-      end_location: {
-        id: 'depot',
-        lat: 49.2553636,
-        lng: -123.0873365
-      }
-    })
-    vrp.addOption('traffic', 'fast')
-    return vrp
-  }
 
-  it('sends the request to the vrp-long and jobs endpoints', function (done) {
-    const client = new Routific.Client({ token: '1234' })
+  it('sends the request to the vrp-long and jobs endpoints', async () => {
+    const client = new Routific({ token: '1234' })
     const vrp = getVrp()
-    nock(client.url, {
-      reqheaders: {
-        Authorization: 'bearer 1234'
-      }
-    }).post(`/v${client.version}/vrp-long`, {
-      visits: {
-        o1: vrp.data.visits.o1,
-        o2: vrp.data.visits.o2
-      },
-      fleet: {
-        v1: vrp.data.fleet.v1
-      },
-      options: {
-        traffic: vrp.data.options.traffic
-      }
-    }).reply(200, { job_id: 'abcde' })
-
-    nock(client.url, {
-      reqheaders: {
-        Authorization: 'bearer 1234'
-      }
-    }).get(`/v${client.version}/jobs/abcde`)
-      .reply(200, {
-        status: 'finished',
-        output: { num_unserved: 1 }
+    client.onfetch = async (url, options) => {
+      const req = new Request(url, options)
+      equal(req.url, `${client.url}/v${client.version}/vrp-long`)
+      equal(req.method, 'POST')
+      equal(req.headers.get('authorization'), 'bearer 1234')
+      const body = await req.json()
+      deepEqual(body, {
+        visits: {
+          o1: vrp.data.visits.o1,
+          o2: vrp.data.visits.o2
+        },
+        fleet: {
+          v1: vrp.data.fleet.v1
+        },
+        options: {
+          traffic: vrp.data.options.traffic
+        }
       })
 
-    return client.route(vrp, function (error, solution, jobId) {
-      if (error != null) { return done(error) }
-      expect(solution.num_unserved).to.eq(1)
-      expect(jobId).to.exist
-      return done()
-    })
+      client.onfetch = async (url, options) => {
+        const req = new Request(url, options)
+        equal(req.url, `${client.url}/v${client.version}/jobs/abcde`)
+        equal(req.method, 'GET')
+        equal(req.headers.get('authorization'), 'bearer 1234')
+        return new Response(JSON.stringify({
+          status: 'finished',
+          output: { num_unserved: 1 }
+        }), { status: 200 })
+      }
+      return new Response(JSON.stringify({ job_id: 'abcde' }), { status: 200 })
+    }
+
+    const {solution, jobId} = await client.route(vrp)
+    equal(solution.num_unserved, 1)
+    equal(jobId, 'abcde')
   })
 
-  return it('retries fetching the job until it is done', function (done) {
-    const client = new Routific.Client({ token: '1234', pollDelay: 100 })
+  it('retries fetching the job until it is done', async () => {
+    const client = new Routific({ token: '1234', pollDelay: 100 })
     const vrp = getVrp()
-    nock(client.url, {
-      reqheaders: {
-        Authorization: 'bearer 1234'
-      }
-    }).post(`/v${client.version}/vrp-long`, {
-      visits: {
-        o1: vrp.data.visits.o1,
-        o2: vrp.data.visits.o2
-      },
-      fleet: {
-        v1: vrp.data.fleet.v1
-      },
-      options: {
-        traffic: vrp.data.options.traffic
-      }
-    }).reply(200,
-      { job_id: 'abcde' })
-
-    const jobCalls = nock(client.url, {
-      reqheaders: {
-        Authorization: 'bearer 1234'
-      }
-    }).get(`/v${client.version}/jobs/abcde`)
-      .reply(200, { status: 'pending' })
-      .get(`/v${client.version}/jobs/abcde`)
-      .reply(200, {
-        status: 'finished',
-        output: { num_unserved: 1 }
+    client.onfetch = async (url, options) => {
+      const req = new Request(url, options)
+      equal(req.url, `${client.url}/v${client.version}/vrp-long`)
+      equal(req.method, 'POST')
+      equal(req.headers.get('authorization'), 'bearer 1234')
+      const body = await req.json()
+      deepEqual(body, {
+        visits: {
+          o1: vrp.data.visits.o1,
+          o2: vrp.data.visits.o2
+        },
+        fleet: {
+          v1: vrp.data.fleet.v1
+        },
+        options: {
+          traffic: vrp.data.options.traffic
+        }
       })
 
-    return client.route(vrp, function (error, solution, jobId) {
-      if (error != null) { return done(error) }
-      jobCalls.done()
-      return done()
-    })
+      client.onfetch = async (url, options) => {
+        client.onfetch = async (url, options) => {
+          return new Response(JSON.stringify({
+            status: 'finished',
+            output: { num_unserved: 1 }
+          }))
+        }
+        return new Response(JSON.stringify({ status: 'pending' }))
+      }
+      return new Response(JSON.stringify({ job_id: 'abcde' }), { status: 200 })
+    }
+
+    const { solution, jobId } = await client.route(vrp)
+    equal(solution.num_unserved, 1)
+    equal(jobId, 'abcde')
+
   })
 })
