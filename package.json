@@ -4,7 +4,7 @@
   "description": "Client to use Routific API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "coffee-script": "^1.9.3",
     "mocha": "^2.2.5",
     "nock": "^2.4.1"
   }
