@@ -1,10 +1,11 @@
 {
   "name": "routific",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Client to use Routific API",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,13 +22,7 @@
     "url": "https://github.com/routific/routific-node-client/issues"
   },
   "homepage": "https://github.com/routific/routific-node-client#readme",
-  "dependencies": {
-    "request": "^2.85.0"
-  },
   "devDependencies": {
-    "chai": "^3.0.0",
-    "coffee-script": "^1.9.3",
-    "mocha": "^2.2.5",
-    "nock": "^2.4.1"
+    "mocha": "^10.0.0"
   }
 }
